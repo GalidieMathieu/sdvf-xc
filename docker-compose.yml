@@ -20,6 +20,20 @@ services:
       - '--secure-file-priv=/var/lib/mysql-files'
       - '--default-authentication-plugin=mysql_native_password'
 
+  api:
+    image: pcourbin/spot_api:0.1.0
+    build: ./api/SPOTAPI
+    environment:
+        DATABASE_URL: "mysql://user:password@db:3306/spot"
+        PORT: "4000"
+    ports:
+      - 4000:4000
+    networks:
+      - spot-network
+    depends_on:
+      - db
+    restart: always
+
   dbadmin:
     image: phpmyadmin/phpmyadmin:edge-4.9
     environment:

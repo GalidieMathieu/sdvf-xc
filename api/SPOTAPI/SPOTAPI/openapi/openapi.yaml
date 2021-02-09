@@ -1,0 +1,512 @@
+openapi: 3.0.0
+info:
+  description: API of Appetee Project
+  title: SPOT API
+  version: 1.0.0
+servers:
+- description: Optional server description, e.g. Internal staging server for testing
+  url: /
+security:
+- ApiKeyAuth: []
+paths:
+  /ingredients:
+    get:
+      description: This operation supports pagination
+      operationId: ingredients_get
+      parameters:
+      - description: The number of items to skip before returning the results
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+        style: form
+      - description: The number of items to return
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          description: A list of ingredients
+        default:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ingredients'
+                type: array
+          description: A list of ingredients
+      summary: Retrieve a collection of Quote objects
+      tags:
+      - ingredients
+      x-openapi-router-controller: SPOTAPI.controllers.ingredients_controller
+    post:
+      operationId: ingredients_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ingredients'
+        required: true
+      responses:
+        "201":
+          description: Created
+      summary: Create ingredients
+      tags:
+      - ingredients
+      x-openapi-router-controller: SPOTAPI.controllers.ingredients_controller
+  /ingredients/{ingredientsID}/:
+    delete:
+      description: Test
+      operationId: ingredients_ingredients_iddelete
+      parameters:
+      - description: The Id of a ingredient
+        explode: false
+        in: path
+        name: ingredientsID
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Success
+        "202":
+          description: Accepted
+        "204":
+          description: Request fulfilled, nothing follows
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: An error occurred
+      summary: Delete ingredients object
+      tags:
+      - Quote
+      x-openapi-router-controller: SPOTAPI.controllers.quote_controller
+    get:
+      description: Test
+      operationId: ingredients_ingredients_idget
+      parameters:
+      - description: The Id of a ingredient
+        explode: false
+        in: path
+        name: ingredientsID
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: A specific quote
+        default:
+          $ref: '#/components/responses/quote'
+      summary: Retrieve a ingredient object
+      tags:
+      - ingredients
+      x-openapi-router-controller: SPOTAPI.controllers.ingredients_controller
+    patch:
+      description: Test
+      operationId: ingredients_ingredients_idpatch
+      parameters:
+      - description: The Id of a ingredient
+        explode: false
+        in: path
+        name: ingredientsID
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ingredients'
+        required: true
+      responses:
+        "200":
+          description: Success
+        "202":
+          description: Accepted
+        "204":
+          description: Request fulfilled, nothing follows
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+          description: An error occurred
+      summary: Update ingredients object
+      tags:
+      - Quote
+      x-openapi-router-controller: SPOTAPI.controllers.quote_controller
+  /recipe:
+    get:
+      description: This operation supports pagination
+      operationId: recipe_get
+      parameters:
+      - description: The number of items to skip before returning the results
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+        style: form
+      - description: The number of items to return
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          description: A list of recipe
+        default:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/recipes'
+                type: array
+          description: A list of recipes
+      summary: Retrieve a collection of recipe objects
+      tags:
+      - recipe
+      x-openapi-router-controller: SPOTAPI.controllers.recipe_controller
+    post:
+      operationId: recipe_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/recipes'
+        required: true
+      responses:
+        "201":
+          description: Created
+      summary: Create recipes
+      tags:
+      - recipe
+      x-openapi-router-controller: SPOTAPI.controllers.recipe_controller
+components:
+  headers:
+    X-RateLimit-Limit:
+      description: Request limit per hour
+      example: 100
+      explode: false
+      schema:
+        type: integer
+      style: simple
+    X-RateLimit-Remaining:
+      description: Remaining requests for the hour
+      example: 94
+      explode: false
+      schema:
+        type: integer
+      style: simple
+  parameters:
+    ingredientsIDParam:
+      description: The Id of a ingredient
+      explode: false
+      in: path
+      name: ingredientsID
+      required: true
+      schema:
+        minimum: 0
+        type: integer
+      style: simple
+    recipeIDParam:
+      description: The Id of a recipe
+      explode: false
+      in: path
+      name: recipeID
+      required: true
+      schema:
+        minimum: 0
+        type: integer
+      style: simple
+    dietIDParam:
+      description: The Id of a diet
+      explode: false
+      in: path
+      name: dietID
+      required: true
+      schema:
+        minimum: 0
+        type: integer
+      style: simple
+    UserIDParam:
+      description: The Id of a user
+      explode: false
+      in: path
+      name: UserID
+      required: true
+      schema:
+        minimum: 0
+        type: integer
+      style: simple
+    offsetParam:
+      description: The number of items to skip before returning the results
+      explode: true
+      in: query
+      name: offset
+      required: false
+      schema:
+        minimum: 0
+        type: integer
+      style: form
+    limitParam:
+      description: The number of items to return
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        format: int32
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    rateLimitHeader:
+      description: Default Header for Rate Limit
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+    GeneralError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: An error occurred
+    diet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/diet'
+      description: A diet
+    dietList:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/diet'
+            type: array
+      description: A list of Diets
+    ingredients:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ingredients'
+      description: A ingredients
+    ingredientsList:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/ingredients'
+            type: array
+      description: A list of ingredients
+    recipes:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/recipes'
+      description: A recipes
+    recipesList:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/recipes'
+            type: array
+      description: A list of recipes
+    User:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+      description: A User
+    UserList:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/User'
+            type: array
+      description: A list of User
+  schemas:
+    error:
+      properties:
+        code:
+          format: int32
+          type: integer
+        message:
+          type: string
+      required:
+      - code
+      - message
+      type: object
+    diet:
+      example:
+        id: 1
+        name: vegetariens
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    ingredients:
+      example:
+        id: 1
+        name: amande
+        unit: g
+        ingredientType: fruit à coque
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+        unit:
+          type: string
+        ingredientType:
+          type: string
+      required:
+      - ingredientType
+      - name
+      - unit
+      type: object
+    ingredientInRecepies:
+      example:
+        quantite: 50
+        optionnel: false
+      properties:
+        quantite:
+          type: string
+        optionnel:
+          type: boolean
+        ingredient:
+          $ref: '#/components/schemas/ingredients'
+      required:
+      - optionnel
+      - quantite
+      type: object
+    ingredientUser:
+      example:
+        allergie: false
+      properties:
+        allergie:
+          type: boolean
+        ingredient:
+          $ref: '#/components/schemas/ingredients'
+      required:
+      - allergie
+      type: object
+    DietUser:
+      example:
+        allergie: false
+      properties:
+        allergie:
+          type: boolean
+        ingredient:
+          $ref: '#/components/schemas/diet'
+      required:
+      - allergie
+      type: object
+    recipes:
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+        time:
+          format: int32
+          type: integer
+        nbPerson:
+          format: int32
+          type: integer
+        directions:
+          type: string
+        diets:
+          items:
+            $ref: '#/components/schemas/diet'
+          type: array
+        ingredients:
+          items:
+            $ref: '#/components/schemas/ingredientInRecepies'
+          type: array
+      required:
+      - directions
+      - name
+      - nbPerson
+      - time
+      type: object
+    User:
+      properties:
+        id:
+          format: int32
+          type: integer
+        Surname:
+          type: string
+        email:
+          format: email
+          type: string
+        password:
+          type: string
+        DislikedIngredient:
+          items:
+            $ref: '#/components/schemas/ingredientUser'
+          type: array
+        diets:
+          items:
+            $ref: '#/components/schemas/DietUser'
+          type: array
+      required:
+      - Id
+      - Surname
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: API-KEY
+      type: apiKey
+      x-apikeyInfoFunc: SPOTAPI.controllers.security_controller_.info_from_ApiKeyAuth

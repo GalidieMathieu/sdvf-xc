@@ -368,7 +368,7 @@ security:
 paths:
   /ingredients:
     get:
-      summary: Retrieve a collection of Quote objects
+      summary: Retrieve a collection of ingredients objects
       description: This operation supports pagination
       tags:
         - ingredients
@@ -404,14 +404,14 @@ paths:
         - $ref: '#/components/parameters/ingredientsIDParam'
       responses:
         '200':
-          description: A specific quote
+          description: A specific ingredients
         default:
-          $ref: '#/components/responses/quote'
+          $ref: '#/components/responses/ingredients'
     patch:
       summary: Update ingredients object
       description: Test
       tags:
-        - Quote
+        - ingredients
       parameters:
         - $ref: '#/components/parameters/ingredientsIDParam'
       requestBody:
@@ -437,7 +437,7 @@ paths:
       summary: Delete ingredients object
       description: Test
       tags:
-        - Quote
+        - ingredients
       parameters:
         - $ref: '#/components/parameters/ingredientsIDParam'
       responses:
