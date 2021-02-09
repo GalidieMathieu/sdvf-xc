@@ -1,0 +1,17 @@
+version: '3'
+services:
+  api:
+    image: appetee/spot_api:0.1.0
+    build: ./SPOTAPI
+    environment:
+        DATABASE_URL: "mysql://user:password@db:3306/spot"
+        PORT: "4000"
+    ports:
+      - 4000:4000
+    networks:
+      - spot-network
+    restart: always
+
+networks:
+  spot-network:
+    external: true
