@@ -56,6 +56,8 @@ components:
         name : vegetariens
 
 # Ingredients
+    ingredientList:
+    
     ingredients:
       type: object
       required:
@@ -79,11 +81,12 @@ components:
         ingredientType: 'fruit à coque'
 
 # For Recipes ##########
-    ingredientInRecepies:
+    ingredient_in_recepies:
       type: object
       required:
         - quantite
         - optionnel
+        - ingredient
       properties:
         quantite:
           type: string
@@ -96,7 +99,7 @@ components:
         optionnel: false
 
 # For User ##########
-    ingredientUser:
+    ingredient_user:
       type: object
       required:
         - allergie
@@ -108,7 +111,7 @@ components:
       example:
         allergie: false
 
-    DietUser:
+    Diet_user:
       type: object
       required:
         - allergie
@@ -150,13 +153,7 @@ components:
         ingredients:
           type: array
           items:
-            $ref: '#/components/schemas/ingredientInRecepies'
-        example:
-          id: 1
-          name: salade de fruit
-          time: 30
-          nbPerson: 5
-          directions: "{'step1' : 'melanger les fruits'}"
+            $ref: '#/components/schemas/ingredient_in_recepies'
 
 # User
     User:
@@ -179,20 +176,17 @@ components:
         DislikedIngredient:
           type: array
           items:
-            $ref: '#/components/schemas/ingredientUser'
+            $ref: '#/components/schemas/ingredient_user'
         diets:
           type: array
           items:
-            $ref: '#/components/schemas/DietUser'
-        example:
-          id: 1
-          name: Mathieu
+            $ref: '#/components/schemas/Diet_user'
           
   ####################
   # Common parameters
   ####################
   parameters:
-    ingredientsIDParam:
+    ingredients_id_param:
       name: ingredientsID
       in: path
       required: true
@@ -201,7 +195,7 @@ components:
         minimum: 0
       description: The Id of a ingredient
 
-    recipeIDParam:
+    recipe_id_param:
       name: recipeID
       in: path
       required: true
@@ -210,7 +204,7 @@ components:
         minimum: 0
       description: The Id of a recipe
 
-    dietIDParam:
+    diet_id_param:
       name: dietID
       in: path
       required: true
@@ -219,7 +213,7 @@ components:
         minimum: 0
       description: The Id of a diet
 
-    UserIDParam:
+    user_id_param:
       name: UserID
       in: path
       required: true
@@ -228,7 +222,7 @@ components:
         minimum: 0
       description: The Id of a user
 
-    offsetParam:
+    offset_param:
       name: offset
       in: query
       schema:
@@ -236,7 +230,7 @@ components:
         minimum: 0
       description: The number of items to skip before returning the results
 
-    limitParam:
+    limit_param:
       in: query
       name: limit
       schema:
@@ -373,13 +367,15 @@ paths:
       tags:
         - ingredients
       parameters:
-        - $ref: '#/components/parameters/offsetParam'
-        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offset_param'
+        - $ref: '#/components/parameters/limit_param'
       responses:
         '200':
-          description: A list of ingredients
-        default:
-          $ref: '#/components/responses/ingredientsList'
+          description: A ingredients
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/ingredientsArray'
     post:
       summary: Create ingredients
       tags:
@@ -401,19 +397,19 @@ paths:
       tags:
         - ingredients
       parameters:
-        - $ref: '#/components/parameters/ingredientsIDParam'
+        - $ref: '#/components/parameters/ingredients_id_param'
       responses:
         '200':
           description: A specific ingredients
-        default:
-          $ref: '#/components/responses/ingredients'
+          default:
+            $ref: '#/components/responses/ingredients'
     patch:
       summary: Update ingredients object
       description: Test
       tags:
         - ingredients
       parameters:
-        - $ref: '#/components/parameters/ingredientsIDParam'
+        - $ref: '#/components/parameters/ingredients_id_param'
       requestBody:
         required: true
         content:
@@ -439,7 +435,7 @@ paths:
       tags:
         - ingredients
       parameters:
-        - $ref: '#/components/parameters/ingredientsIDParam'
+        - $ref: '#/components/parameters/ingredients_id_param'
       responses:
         '200':
           description: Success
@@ -451,8 +447,8 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        default:
-          $ref: '#/components/responses/GeneralError'
+          default:
+            $ref: '#/components/responses/GeneralError'
 
   /recipe:
     get:
@@ -461,13 +457,13 @@ paths:
       tags:
         - recipe
       parameters:
-        - $ref: '#/components/parameters/offsetParam'
-        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/offset_param'
+        - $ref: '#/components/parameters/limit_param'
       responses:
         '200':
           description: A list of recipe
-        default:
-          $ref: '#/components/responses/recipesList'
+          default:
+            $ref: '#/components/responses/recipesList'
     post:
       summary: Create recipes
       tags:
